@@ -1,0 +1,15 @@
+﻿@model object
+
+@{
+    var type = Model.GetType();
+    var localizer = localizerFactory.Create(type);
+}
+
+<tr>
+    @foreach (var prop in type.GetProperties())
+    {
+        <td>
+            @prop.GetValue(Model)
+        </td>
+    }
+</tr>

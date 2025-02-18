@@ -1,0 +1,24 @@
+﻿@model Type
+@{
+    var localizer = localizerFactory.Create(Model);
+    var tableName = ViewData["tableName"];
+}
+
+<tfoot>
+    <tr>
+        <td colspan="100%">
+            <button class="ds-pagination-btn ds-pagination-btn-backer" onclick="DSTablePageBack(10,this)"><i class="fa fa-angle-double-right"></i></button>
+            <button class="ds-pagination-btn ds-pagination-btn-back" onclick="DSTablePageBack(1,this)"><i class="fa fa-angle-right"></i></button>
+            <div class="ds-pagination-pages ds-pagination-pages-previous"></div>
+            <div class="ds-pagination-pages ds-pagination-pages-current"></div>
+            <div class="ds-pagination-pages ds-pagination-pages-next"></div>
+            <button class="ds-pagination-btn ds-pagination-btn-next" onclick="DSTablePageNext(1,this)"><i class="fa fa-angle-left"></i></button>
+            <button class="ds-pagination-btn ds-pagination-btn-nexter" onclick="DSTablePageNext(10,this)"><i class="fa fa-angle-double-left"></i></button>
+            <div class="ds-pagination-current">
+                <input type="number" class="form-control ds-pagination-input-goto" />
+            </div>
+            <div class="ds-pagination-last"></div>
+            <button class="ds-pagination-btn ds-pagination-btn-goto" onclick="DSTablePageGoto(-1,this)"><i class="fa fa-backward"></i></button>
+        </td>
+    </tr>
+</tfoot>

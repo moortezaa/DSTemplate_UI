@@ -1,0 +1,117 @@
+﻿@using System.Reflection;
+@using DSTemplate_UI.ViewModels;
+@model Type
+@{
+    var localizer = localizerFactory.Create(Model);
+    var tableName = ViewData["tableName"];
+    var preColumns = (int?)ViewData["preColumns"] ?? 0;
+    var postColumns = (int?)ViewData["postColumns"] ?? 0;
+    var propertiesTypes = (IEnumerable<KeyValuePair<string, Type>>)ViewData["propertiesTypes"];
+    var properties = new List<DSPropertyViewModel>();
+    if (propertiesTypes.Count() == 0)
+    {
+        properties = Model.GetProperties().Where(p => true).Select(p => new DSPropertyViewModel() { PropertyInfo = p, PropertyType = p.PropertyType }).ToList();
+    }
+    else
+    {
+        foreach (var propertyType in propertiesTypes)
+        {
+            var parentType = Model;
+            var propType = Model.GetProperty(propertyType.Key);
+            if (propertyType.Key.Contains("."))
+            {
+                var propNames = propertyType.Key.Split('.');
+                propType = Model.GetProperty(propNames[0]);
+                propNames = propNames.Skip(1).ToArray();
+                foreach (var propName in propNames)
+                {
+                    parentType = propType.PropertyType;
+                    if (propType.PropertyType.GetInterface("IEnumerable") != null)
+                    {
+                        propType = propType.PropertyType.GetGenericArguments()[0].GetProperty(propName);
+                    }
+                    else
+                    {
+                        propType = propType.PropertyType.GetProperty(propName);
+                    }
+                }
+            }
+            var propLocalizer = localizerFactory.Create(parentType);
+            properties.Add(new DSPropertyViewModel() { PropertyInfo = propType, PropertyType = ((PropertyInfo)propType).PropertyType, Localizer = propLocalizer, Navigation = propertyType.Key });
+        }
+    }
+    var disableFilters = (IEnumerable<string>)ViewData["disableFilters"];
+}
+
+<thead>
+    <tr>
+        @for (int i = 0; i < preColumns; i++)
+        {
+            <th></th>
+        }
+        @foreach (var prop in properties)
+        {
+            <th class="ds-table-header">
+                @prop.Localizer[prop.PropertyInfo.Name].Value
+                <button type="button" class="ds-table-header-btn" onclick="DSSortClick('@prop.PropertyInfo.Name',this)"><i class="fa fa-sort-amount-down"></i></button>
+                @if (!disableFilters.Contains(prop.PropertyInfo.Name))
+                {
+                    <button type="button" class="ds-table-header-btn" onclick="$('#@(tableName)collapse@(prop.Navigation.Replace(".","_"))').collapse('toggle')"><i class="fa fa-filter"></i></button>
+                    <div class="collapse ds-filter-popup" id="@(tableName)collapse@(prop.Navigation.Replace(".","_"))">
+                        @if (prop.PropertyType == typeof(bool))
+                        {
+                            <input type="checkbox" class="toggle" />
+                        }
+                        else if (prop.PropertyType.IsEnum)
+                        {
+                            var enums = new SelectList(Enum.GetValues(prop.PropertyType).ToList().Select(e => new { value = (int)e, text = e.ToLocalizedString(localizerFactory) }).ToList(), "value", "text");
+                            <select asp-items="enums" class="form-control">
+                                <option value="">@SR["Please Select"]</option>
+                            </select>
+                        }
+                        else if (prop.PropertyType == typeof(DateTime))
+                        {
+                            <div class="date-time-filter" data-table-name="@(tableName)" data-prop-name="@(prop.PropertyInfo.Name)">
+                                <input id="@(tableName)-filter-start@(prop.PropertyInfo.Name)" type="hidden" />
+                                <input id="@(tableName)-filter-end@(prop.PropertyInfo.Name)" type="hidden" />
+                                <div class="input-group" dir="ltr">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text cursor-pointer" id="@(tableName)-span-start@(prop.PropertyInfo.Name)" data-mdpersiandatetimepicker="" data-original-title="" title=""><i class="fas fa-calendar"></i></span>
+                                    </div>
+                                    <input type="text" id="@(tableName)-input-start@(prop.PropertyInfo.Name)" class="form-control" placeholder="@SR["Please Select"]" aria-label="@(tableName)-input-start@(prop.PropertyInfo.Name)" aria-describedby="@(tableName)-input-start@(prop.PropertyInfo.Name)">
+                                </div>
+                                <div class="input-group" dir="ltr">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text cursor-pointer" id="@(tableName)-span-end@(prop.PropertyInfo.Name)" data-mdpersiandatetimepicker="" data-original-title="" title=""><i class="fas fa-calendar"></i></span>
+                                    </div>
+                                    <input type="text" id="@(tableName)-input-end@(prop.PropertyInfo.Name)" class="form-control" placeholder="@SR["Please Select"]" aria-label="@(tableName)-input-end@(prop.PropertyInfo.Name)" aria-describedby="@(tableName)-input-end@(prop.PropertyInfo.Name)">
+                                </div>
+                            </div>
+                        }
+                        else if (prop.PropertyType == typeof(TimeSpan))
+                        {
+                            <label>@SR["From"]</label>
+                            <input id="@(tableName)-filter-min@(prop.PropertyInfo.Name)" type="time" />
+                            <label>@SR["To"]</label>
+                            <input id="@(tableName)-filter-max@(prop.PropertyInfo.Name)" type="time" />
+                        }
+                        else if (new Type[] { typeof(int), typeof(long), typeof(decimal), typeof(float) }.Contains(prop.PropertyType))
+                        {
+                            <input type="number" class="form-control" placeholder="@(localizer[prop.PropertyInfo.Name].Value)" />
+                        }
+                        else
+                        {
+                            <input type="text" class="form-control" placeholder="@(localizer[prop.PropertyInfo.Name].Value)" />
+                        }
+                        <button type="button" class="ds-filter-popup-btn" onclick="DSFilterClick('@(prop.Navigation)',this)"><i class="fa fa-filter"></i></button>
+                        <button type="button" class="ds-filter-popup-btn" onclick="DSClearFilterClick('@(prop.Navigation)',this)"><i class="fa fa-trash"></i></button>
+                    </div>
+                }
+            </th>
+        }
+        @for (int i = 0; i < postColumns; i++)
+        {
+            <th></th>
+        }
+    </tr>
+</thead>

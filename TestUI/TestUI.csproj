@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\ds-template-ui\table.css" />
+    <Content Remove="wwwroot\lib\ds-template-ui\table.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\ds-template-ui\table.css" />
+    <None Include="wwwroot\lib\ds-template-ui\table.js" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-duotone-900.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-light-300.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-sharp-light-300.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-sharp-regular-400.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-sharp-solid-900.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\lib\fontawesome\webfonts\fa-v4compatibility.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DSTemplate_UI\DSTemplate_UI.csproj" />
+  </ItemGroup>
+
+</Project>

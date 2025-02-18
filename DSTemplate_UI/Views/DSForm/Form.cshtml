@@ -1,0 +1,60 @@
+﻿@using System.Reflection;
+@using System.ComponentModel.DataAnnotations;
+@model Type
+@{
+    var localizer = localizerFactory.Create(Model);
+    var propertiesToShow = ViewData["DSPropertiesToShow"];
+    var dsFor = ViewData["DSFor"];
+    var props = DsModelType.GetProperties();
+    var formGroup = new TagBuilder("div");
+    foreach (var prop in props)
+    {
+        if (propertiesToShow.Contains(prop.Name))
+        {
+            <div class="form-group">
+                @if (prop.PropertyType == typeof(bool))
+                {
+                    <div class="checkbox">
+                        <div class="form-check">
+                            <input id="@prop.Name" name="@prop.Name" type="checkbox" class="form-check-input"/>
+                            <label>@localizer[prop.Name].Value</label>
+                        </div>
+                    </div>
+                }
+                else if (new Type[] { typeof(int), typeof(decimal), typeof(float) }.Contains(prop.PropertyType))
+                {
+                    <label>@localizer[prop.Name].Value@RequiredMark(prop)</label>
+                    <input id="@prop.Name" name="@prop.Name" type="number" class="form-control"/>
+                }
+                else if (prop.PropertyType.IsEnum)
+                {
+                    <label>@localizer[prop.Name].Value@RequiredMark(prop)</label>
+                    var enums = new SelectList(Enum.GetValues(prop.PropertyType).ToList().Select(e => new { value = (int)e, text = e.ToLocalizedString(localizerFactory) }).ToList(), "value", "text");
+                    <select id="@prop.Name" name="@prop.Name" asp-items="enums" class="form-control">
+                        <option value="">@SR["Please Select"]</option>
+                    </select>
+                }
+                else
+                {
+                    <label>@localizer[prop.Name].Value@RequiredMark(prop)</label>
+                    <input id="@prop.Name" name="@prop.Name" type="text" class="form-control" />
+                }
+                <span class="text-danger"></span>
+            </div>
+        }
+    }
+    <div class="form-group">
+        <input type="submit" value="@SR["Submit"]" class="btn btn-success" />
+    </div>
+}
+
+@{
+    private static void RequiredMark(PropertyInfo prop)
+    {
+        var customAttributes = prop.GetCustomAttributes(false);
+        if (customAttributes.Any(c => c.GetType() == typeof(RequiredAttribute)))
+        {
+            <span class="text-danger">*</span>
+        }
+    }
+}

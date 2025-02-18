@@ -1,0 +1,12 @@
+﻿@using TestUI.Controllers
+@{
+    var properties = new List<string>()
+    {
+        nameof(Class1.title),
+        nameof(Class1.Class2)+'.'+nameof(Class2.Class3)+'.'+nameof(Class3.Class4s)+'.'+nameof(Class4.description),
+    };
+}
+
+<table ds-controller="@nameof(HomeController).Replace("Controller","")" ds-model-type="@typeof(Class1)" ds-name="yo"
+       ds-properties-to-show="properties" ds-rows-per-page="10">
+</table>

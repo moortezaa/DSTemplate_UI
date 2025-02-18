@@ -1,0 +1,64 @@
+﻿.ds-table-header {
+    position: relative;
+}
+
+.ds-filter-popup {
+    background: var(--dark);
+    position: absolute;
+    padding: 5px;
+    border-radius: 5px;
+    z-index: 2;
+    top: 100%;
+    right: 0;
+}
+
+button.ds-table-header-btn {
+    background: none;
+    border: none;
+}
+
+button.ds-filter-popup-btn {
+    border: none;
+    margin-top: 0.5em;
+    display: inline-flex;
+    width: 2em;
+    height: 2em;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+button.ds-pagination-btn {
+    background: none;
+    border: none;
+}
+
+.ds-hidden {
+    display: none;
+}
+
+button.ds-pagination-page-button {
+    border: 1px solid var(--bs-gray);
+    border-radius: 5px;
+}
+
+.ds-pagination-pages {
+    display: inline;
+}
+
+input.ds-pagination-input-goto {
+    width: 4em;
+}
+
+.ds-pagination-current {
+    display: inline-block;
+}
+
+.ds-pagination-last {
+    display: inline-block;
+}
+
+.ds-pagination-pages-current {
+    box-shadow: 0px 0px 5px var(--bs-success);
+    border-radius: 5px;
+}

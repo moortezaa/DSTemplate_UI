@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DSTemplate_UI", "DSTemplate_UI\DSTemplate_UI.csproj", "{722BEA9B-8917-4CF5-9FEB-7195BC231015}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUI", "TestUI\TestUI.csproj", "{D3E1D0F1-F655-43C8-B35E-B1B2F42DBB69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{722BEA9B-8917-4CF5-9FEB-7195BC231015}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722BEA9B-8917-4CF5-9FEB-7195BC231015}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722BEA9B-8917-4CF5-9FEB-7195BC231015}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722BEA9B-8917-4CF5-9FEB-7195BC231015}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E1D0F1-F655-43C8-B35E-B1B2F42DBB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E1D0F1-F655-43C8-B35E-B1B2F42DBB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E1D0F1-F655-43C8-B35E-B1B2F42DBB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E1D0F1-F655-43C8-B35E-B1B2F42DBB69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2BEEC000-E4F0-4D86-8CA4-AFAF5B56475E}
+	EndGlobalSection
+EndGlobal
