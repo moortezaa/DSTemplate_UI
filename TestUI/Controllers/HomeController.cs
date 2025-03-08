@@ -1,19 +1,22 @@
 using DSTemplate_UI.Interfaces;
+using DSTemplate_UI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TestUI.Models;
 
 namespace TestUI.Controllers
 {
-    public class HomeController : Controller, IDSTableController
+    public class HomeController : Controller, IDSTableController, IDSSelectController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IDSTableManager _dSTableManager;
+        private readonly IDSSelectManager _dSSelectManager;
 
-        public HomeController(ILogger<HomeController> logger, IDSTableManager dSTableManager)
+        public HomeController(ILogger<HomeController> logger, IDSTableManager dSTableManager, IDSSelectManager dSSelectManager)
         {
             _logger = logger;
             _dSTableManager = dSTableManager;
+            _dSSelectManager = dSSelectManager;
         }
 
         public IActionResult Index()
@@ -82,7 +85,7 @@ namespace TestUI.Controllers
             var rows = new List<string>();
             foreach (var row in query)
             {
-                rows.Add(await _dSTableManager.RenderRow(row));
+                rows.Add(await _dSTableManager.RenderRow(row,customRowView:"Home/IndexRow"));
             }
             return await _dSTableManager.Json(rows, tableName);
         }
@@ -90,6 +93,22 @@ namespace TestUI.Controllers
         public Task<JsonResult> DSGetTableDataCount(string tableName, string filters, string routeValues = null)
         {
             return _dSTableManager.Json(2, tableName);
+        }
+
+        public async Task<JsonResult> DSGetSelectData(string selectName, string filter, string routeValues = null)
+        {
+            Class1[] entities = [
+                new Class1(){title="some title"},
+                new Class1(){title="title 1"},
+                new Class1(){title="no"},
+                new Class1(){title="here is a title"},
+                ];
+            if (selectName== "theselect")
+            {
+                var filtered = entities.Where(e => e.title.Contains(filter??""));
+                return await _dSSelectManager.Json(selectName,filtered,nameof(Class1.title),nameof(Class1.title));
+            }
+            return Json("Select not found.");
         }
     }
 }

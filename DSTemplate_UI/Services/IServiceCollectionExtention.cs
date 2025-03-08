@@ -11,6 +11,7 @@ namespace DSTemplate_UI.Services
             services.AddScoped<ViewRendererService>();
 
             services.AddScoped<IDSTableManager, DSTableManager>();
+            services.AddScoped<IDSSelectManager, DSSelectManager>();
         }
     }
 }

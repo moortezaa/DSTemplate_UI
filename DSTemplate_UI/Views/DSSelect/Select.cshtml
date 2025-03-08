@@ -1,7 +1,8 @@
 ﻿@model Type
 @{
     var localizer = localizerFactory.Create(Model);
-    var tableName = ViewData["selectName"];
+    var selectName = ViewData["selectName"];
 }
 
-<input type="text" class="form-control"/>
+<input type="text" class="form-control" />
+<div class="ds-select-drop-down"></div>

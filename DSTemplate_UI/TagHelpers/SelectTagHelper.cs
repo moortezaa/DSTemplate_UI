@@ -21,6 +21,7 @@ namespace DSTemplate_UI.TagHelpers
         public Type DsModelType { get; set; }
         public string DsController { get; set; }
         public string DsName { get; set; }
+        public IEnumerable<KeyValuePair<string, object>> DSRouteValues { get; set; } = new List<KeyValuePair<string, object>>();
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             try
@@ -33,6 +34,11 @@ namespace DSTemplate_UI.TagHelpers
                 output.Attributes.Add("name", DsName);
                 output.Attributes.Add("id", DsName);
                 output.Attributes.Add("data-ds-data-url", $"/{DsController}/DSGetSelectData");
+
+                if (DSRouteValues.Any())
+                {
+                    output.Attributes.Add("data-ds-route-values", JsonConvert.SerializeObject(DSRouteValues));
+                }
 
                 output.Content.SetHtmlContent(await _viewRendererService.RenderViewToStringAsync("DSSelect/Select", DsModelType,
                     new[] {

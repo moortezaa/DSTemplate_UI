@@ -1,11 +1,13 @@
 using DSTemplate_UI.Services;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using TestUI.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddDSTemplateUI();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");

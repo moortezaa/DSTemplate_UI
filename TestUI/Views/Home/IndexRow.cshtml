@@ -1,0 +1,15 @@
+﻿@model Class1
+
+<tr>
+    <td rowspan="2">@Model.title</td>
+    <td>@Model.Class2.Class3.Class4s.First().description</td>
+</tr>
+
+@{
+    for (int i = 1; i < Model.Class2.Class3.Class4s.Count; i++)
+    {
+        <tr>
+            <td>@Model.Class2.Class3.Class4s[i].description</td>
+        </tr>
+    }
+}
