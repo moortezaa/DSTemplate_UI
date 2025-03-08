@@ -21,12 +21,15 @@ namespace DSTemplate_UI.Services
         private IRazorViewEngine _razorViewEngine;
         private ITempDataProvider _tempDataProvider;
         private IHttpContextAccessor _httpContextAccessor;
+        private IServiceProvider _serviceProvider;
 
-        public ViewRendererService(ITempDataProvider tempDataProvider, IRazorViewEngine razorViewEngine, IHttpContextAccessor httpContextAccessor)
+        public ViewRendererService(ITempDataProvider tempDataProvider, IRazorViewEngine razorViewEngine, IHttpContextAccessor httpContextAccessor,
+            IServiceProvider serviceProvider)
         {
             _tempDataProvider = tempDataProvider;
             _razorViewEngine = razorViewEngine;
             _httpContextAccessor = httpContextAccessor;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task<string> RenderViewToStringAsync(string viewName, object model, IEnumerable<KeyValuePair<string, object>> viewData)
@@ -43,9 +46,13 @@ namespace DSTemplate_UI.Services
         }
         public async Task<string> RenderViewToStringAsync(string viewName, object model, ViewDataDictionary viewData = null)
         {
-
+            var httpContext = new DefaultHttpContext()
+            {
+                RequestServices = _serviceProvider,
+            };
+            var routeData = new RouteData();
             var actionDescriptor = new ActionDescriptor();
-            var actionContext = new ActionContext(_httpContextAccessor.HttpContext, _httpContextAccessor.HttpContext.GetRouteData(), actionDescriptor);
+            var actionContext = new ActionContext(httpContext, routeData, actionDescriptor);
             using var sw = new StringWriter();
             var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
 

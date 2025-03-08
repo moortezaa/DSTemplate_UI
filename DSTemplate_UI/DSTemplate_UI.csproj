@@ -1,49 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
-  <PropertyGroup>
-    <TargetFrameworks>net8.0</TargetFrameworks>
-    <Title>DS Template UI</Title>
-    <Version>1.0.2.20</Version>
-    <PackageOutputPath></PackageOutputPath>
-    <Authors>moriuse</Authors>
-    <Description>fast and easy Taghelpers for razor pages to generate tables and other comon UI elements.</Description>
-    <PackageIcon>dsicon.jpg</PackageIcon>
-    <RepositoryUrl>https://github.com/moortezaa/DSTemplate_UI.git</RepositoryUrl>
-    <PackageTags>UI,table,razor,html</PackageTags>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes></PackageReleaseNotes>
-    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net8.0</TargetFrameworks>
+		<Title>DS Template UI</Title>
+		<Version>1.0.3.0</Version>
+		<PackageOutputPath></PackageOutputPath>
+		<Authors>moriuse</Authors>
+		<Description>fast and easy Taghelpers for razor pages to generate tables and other comon UI elements.</Description>
+		<PackageIcon>icon.png</PackageIcon>
+		<RepositoryUrl>https://github.com/moortezaa/DSTemplate_UI.git</RepositoryUrl>
+		<PackageTags>UI,table,razor,html</PackageTags>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReleaseNotes></PackageReleaseNotes>
+		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Content\css\table.css" />
-    <None Remove="Content\js\table.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="C:\Users\Alumni-ITMaster\Pictures\icon.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\LICENSE.txt">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Content\css\table.css" />
-    <Content Include="Content\js\table.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="D:\Pictures\dsicon.jpg">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\LICENSE.txt">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.0" />
+		<PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="9.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	</ItemGroup>
 </Project>
