@@ -20,13 +20,13 @@ namespace DSTemplate_UI.Services
 
         private IRazorViewEngine _razorViewEngine;
         private ITempDataProvider _tempDataProvider;
-        private IServiceProvider _serviceProvider;
+        private IHttpContextAccessor _httpContextAccessor;
 
-        public ViewRendererService(IServiceProvider serviceProvider)
+        public ViewRendererService(ITempDataProvider tempDataProvider, IRazorViewEngine razorViewEngine, IHttpContextAccessor httpContextAccessor)
         {
-            _serviceProvider = serviceProvider;
-            _tempDataProvider = serviceProvider.GetRequiredService<ITempDataProvider>();
-            _razorViewEngine = serviceProvider.GetRequiredService<IRazorViewEngine>();
+            _tempDataProvider = tempDataProvider;
+            _razorViewEngine = razorViewEngine;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<string> RenderViewToStringAsync(string viewName, object model, IEnumerable<KeyValuePair<string, object>> viewData)
@@ -43,19 +43,9 @@ namespace DSTemplate_UI.Services
         }
         public async Task<string> RenderViewToStringAsync(string viewName, object model, ViewDataDictionary viewData = null)
         {
-            var httpContext = new DefaultHttpContext()
-            {
-                RequestServices = _serviceProvider
-            };
 
-            var endpointFeature = new EndpointFeature
-            {
-                Endpoint = new((c) => Task.CompletedTask, new EndpointMetadataCollection(), "")
-            };
-            httpContext.Features.Set<IEndpointFeature>(endpointFeature);
-            var routeData = new RouteData();
             var actionDescriptor = new ActionDescriptor();
-            var actionContext = new ActionContext(httpContext, routeData, actionDescriptor);
+            var actionContext = new ActionContext(_httpContextAccessor.HttpContext, _httpContextAccessor.HttpContext.GetRouteData(), actionDescriptor);
             using var sw = new StringWriter();
             var viewResult = _razorViewEngine.FindView(actionContext, viewName, false);
 
@@ -84,7 +74,7 @@ namespace DSTemplate_UI.Services
                 actionContext,
                 viewResult.View,
                 viewData,
-                new TempDataDictionary(httpContext, _tempDataProvider),
+                new TempDataDictionary(_httpContextAccessor.HttpContext, _tempDataProvider),
                 sw,
                 new HtmlHelperOptions()
             );
@@ -92,11 +82,6 @@ namespace DSTemplate_UI.Services
             await viewResult.View.RenderAsync(viewContext);
 
             return sw.ToString();
-        }
-
-        private class EndpointFeature : IEndpointFeature
-        {
-            public Endpoint Endpoint { get; set; }
         }
     }
 }

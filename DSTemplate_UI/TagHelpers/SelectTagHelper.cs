@@ -1,0 +1,48 @@
+﻿using DSTemplate_UI.Services;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DSTemplate_UI.TagHelpers
+{
+    [HtmlTargetElement("select", Attributes = "ds-model-type,ds-controller,ds-name")]
+    public class SelectTagHelper : TagHelper
+    {
+        private ViewRendererService _viewRendererService;
+
+        public SelectTagHelper(ViewRendererService viewRendererService)
+        {
+            _viewRendererService = viewRendererService;
+        }
+
+        public Type DsModelType { get; set; }
+        public string DsController { get; set; }
+        public string DsName { get; set; }
+        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+        {
+            try
+            {
+                await base.ProcessAsync(context, output);
+
+                output.TagName = "div";
+                output.TagMode = TagMode.StartTagAndEndTag;
+                output.Attributes.Add("class", "ds-select");
+                output.Attributes.Add("name", DsName);
+                output.Attributes.Add("id", DsName);
+                output.Attributes.Add("data-ds-data-url", $"/{DsController}/DSGetSelectData");
+
+                output.Content.SetHtmlContent(await _viewRendererService.RenderViewToStringAsync("DSSelect/Select", DsModelType,
+                    new[] {
+                        new KeyValuePair<string, object>("selectName", DsName),
+                    }));
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"{e.Message}\nStack Trace:\n{e.StackTrace}", e.InnerException);
+            }
+        }
+    }
+}
