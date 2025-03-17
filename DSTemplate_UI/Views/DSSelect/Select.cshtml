@@ -2,7 +2,11 @@
 @{
     var localizer = localizerFactory.Create(Model);
     var selectName = ViewData["selectName"];
+    var placeHolder = ViewData["placeHolder"];
+    var Id = ViewData["Id"];
+    var Name = ViewData["Name"];
 }
 
-<input type="text" class="form-control" />
+<input type="hidden" class="ds-select-input" name="@Name" id="@Id" />
+<input type="text" class="ds-select-filter form-control" placeholder="@placeHolder" />
 <div class="ds-select-drop-down"></div>

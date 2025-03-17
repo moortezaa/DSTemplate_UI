@@ -21,6 +21,9 @@ namespace DSTemplate_UI.TagHelpers
         public Type DsModelType { get; set; }
         public string DsController { get; set; }
         public string DsName { get; set; }
+        public string PlaceHolder { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
         public IEnumerable<KeyValuePair<string, object>> DSRouteValues { get; set; } = new List<KeyValuePair<string, object>>();
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -41,9 +44,12 @@ namespace DSTemplate_UI.TagHelpers
                 }
 
                 output.Content.SetHtmlContent(await _viewRendererService.RenderViewToStringAsync("DSSelect/Select", DsModelType,
-                    new[] {
+                    [
                         new KeyValuePair<string, object>("selectName", DsName),
-                    }));
+                        new KeyValuePair<string, object>("placeHolder", PlaceHolder),
+                        new KeyValuePair<string, object>("Id", Id),
+                        new KeyValuePair<string, object>("Name", Name),
+                    ]));
             }
             catch (Exception e)
             {

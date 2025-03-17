@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\lib\ds-template-ui\select.css" />
     <Content Remove="wwwroot\lib\ds-template-ui\select.js" />
     <Content Remove="wwwroot\lib\ds-template-ui\table.css" />
     <Content Remove="wwwroot\lib\ds-template-ui\table.js" />
@@ -14,6 +15,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\lib\ds-template-ui\select.js" />
+    <None Include="wwwroot\lib\ds-template-ui\select.css" />
     <None Include="wwwroot\lib\ds-template-ui\table.css" />
     <None Include="wwwroot\lib\ds-template-ui\table.js" />
     <None Include="wwwroot\lib\fontawesome\webfonts\fa-brands-400.woff2" />

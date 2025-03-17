@@ -1,0 +1,23 @@
+﻿.ds-select {
+    position: relative;
+}
+
+.ds-select-drop-down {
+    position: absolute;
+}
+
+    .ds-select-drop-down.show, .ds-select-drop-down.collapsing {
+        padding: 5px;
+        background: white;
+        border: 1px solid lightgray;
+        border-radius: 5px;
+    }
+
+    .ds-select-drop-down > div {
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+        .ds-select-drop-down > div[selected] {
+            background-color: #bce9ad;
+        }
