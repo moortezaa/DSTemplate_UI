@@ -78,7 +78,7 @@ namespace DSTemplate_UI.Services
             }
 
             var viewContext = new ViewContext(
-                actionContext,
+                new ActionContext(_httpContextAccessor.HttpContext,_httpContextAccessor.HttpContext.GetRouteData(),actionDescriptor),
                 viewResult.View,
                 viewData,
                 new TempDataDictionary(_httpContextAccessor.HttpContext, _tempDataProvider),
