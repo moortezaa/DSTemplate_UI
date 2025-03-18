@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
-
 	<PropertyGroup>
 		<TargetFrameworks>net8.0</TargetFrameworks>
 		<Title>DS Template UI</Title>
-		<Version>1.0.4</Version>
+		<Version>1.0.4.1</Version>
 		<PackageOutputPath></PackageOutputPath>
 		<Authors>moriuse</Authors>
 		<Description>fast and easy Taghelpers for razor pages to generate tables and other comon UI elements.</Description>
-		<PackageIcon>dsicon.jpg</PackageIcon>
+		<PackageIcon>icon.png</PackageIcon>
 		<RepositoryUrl>https://github.com/moortezaa/DSTemplate_UI.git</RepositoryUrl>
 		<PackageTags>UI,table,razor,html</PackageTags>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
@@ -17,7 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="D:\Pictures\dsicon.jpg">
+		<None Include="icon.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
