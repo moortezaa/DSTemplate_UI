@@ -2,10 +2,11 @@
     var selects = $('.ds-select');
     for (var i = 0; i < selects.length; i++) {
         var select = $(selects[i]);
-        select.find('.ds-select-filter').on('input', () => {
-            DSGetSelectData(select);
+        select.find('.ds-select-filter').on('input', (e) => {
+            DSGetSelectData($(e.currentTarget).parent());
         })
         select.find('.ds-select-filter').on('blur', (e) => {
+            var select = $(e.currentTarget).parent();
             var dropDown = select.find('.ds-select-drop-down');
             var option = dropDown.children('[selected=selected]');
             dropDown.collapse('hide');
@@ -15,6 +16,7 @@
         })
         select.find('.ds-select-filter').on('keydown', (e) => {
             if (e.code == "ArrowDown" || e.code == "ArrowUp") {
+                var select = $(e.currentTarget).parent();
                 var dropDown = select.find('.ds-select-drop-down');
                 var option = dropDown.children('[selected=selected]');
                 var newOption = undefined;
