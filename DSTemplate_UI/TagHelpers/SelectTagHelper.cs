@@ -1,4 +1,5 @@
 ﻿using DSTemplate_UI.Services;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Newtonsoft.Json;
 using System;
@@ -22,6 +23,7 @@ namespace DSTemplate_UI.TagHelpers
         public string DsController { get; set; }
         public string DsName { get; set; }
         public string PlaceHolder { get; set; }
+        public ModelExpression AspFor { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
         public IEnumerable<KeyValuePair<string, object>> DSRouteValues { get; set; } = new List<KeyValuePair<string, object>>();
@@ -31,10 +33,18 @@ namespace DSTemplate_UI.TagHelpers
             {
                 await base.ProcessAsync(context, output);
 
+                if (AspFor != null)
+                {
+                    Id = AspFor.Name;
+                    Name = AspFor.Name;
+                }
+
                 output.TagName = "div";
                 output.TagMode = TagMode.StartTagAndEndTag;
                 output.Attributes.Add("class", "ds-select");
                 output.Attributes.Add("id", DsName);
+                output.Attributes.SetAttribute("Id", DsName); // making sure asp-for doesn't set the id
+                output.Attributes.RemoveAll("name"); // remove the name attribute that asp-for might have set
                 output.Attributes.Add("data-ds-name", DsName);
                 output.Attributes.Add("data-ds-data-url", $"/{DsController}/DSGetSelectData");
 

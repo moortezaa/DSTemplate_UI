@@ -11,7 +11,7 @@
             dropDown.collapse('hide');
             var selectInput = dropDown.parent().find('.ds-select-input');
             selectInput.val(option.attr('value'));
-            select.find('.ds-select-filter').val(option.attr('value'));
+            select.find('.ds-select-filter').val(option.text());
         })
         select.find('.ds-select-filter').on('keydown', (e) => {
             if (e.code == "ArrowDown" || e.code == "ArrowUp") {
