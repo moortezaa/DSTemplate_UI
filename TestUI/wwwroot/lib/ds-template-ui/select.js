@@ -35,7 +35,7 @@
 })
 
 function DSGetSelectData(select) {
-    var name = select.attr('name');
+    var name = select.data('ds-name');
     var dataUrl = select.data('ds-data-url');
     var filter = select.find('.ds-select-filter').val();
     var routeValues = select.data('ds-route-values');
