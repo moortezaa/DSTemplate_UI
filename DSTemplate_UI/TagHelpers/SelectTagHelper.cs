@@ -24,6 +24,7 @@ namespace DSTemplate_UI.TagHelpers
         public string PlaceHolder { get; set; }
         public string Id { get; set; }
         public string Name { get; set; }
+        public bool AllowNewValue { get; set; } = false;
         public IEnumerable<KeyValuePair<string, object>> DSRouteValues { get; set; } = new List<KeyValuePair<string, object>>();
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
@@ -36,6 +37,7 @@ namespace DSTemplate_UI.TagHelpers
                 output.Attributes.Add("class", "ds-select");
                 output.Attributes.Add("name", DsName);
                 output.Attributes.Add("id", DsName);
+                output.Attributes.Add("data-ds-allow-new-value", AllowNewValue);
                 output.Attributes.Add("data-ds-data-url", $"/{DsController}/DSGetSelectData");
 
                 if (DSRouteValues.Any())

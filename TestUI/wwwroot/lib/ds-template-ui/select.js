@@ -2,16 +2,23 @@
     var selects = $('.ds-select');
     for (var i = 0; i < selects.length; i++) {
         var select = $(selects[i]);
-        select.find('.ds-select-filter').on('input', () => {
+        select.find('.ds-select-filter').on('input', (e) => {
+            var select = $(e.currentTarget).parent();
             DSGetSelectData(select);
         })
         select.find('.ds-select-filter').on('blur', (e) => {
+            var select = $(e.currentTarget).parent();
             var dropDown = select.find('.ds-select-drop-down');
-            var option = dropDown.children('[selected=selected]');
             dropDown.collapse('hide');
+            var option = dropDown.children('[selected=selected]');
             var selectInput = dropDown.parent().find('.ds-select-input');
-            selectInput.val(option.attr('value'));
-            select.find('.ds-select-filter').val(option.attr('value'));
+
+            if (Boolean(select.data('ds-allow-new-value')) && option.length == 0) {
+                selectInput.val($(e.currentTarget).val());
+            } else {
+                selectInput.val(option.attr('value'));
+                $(e.currentTarget).val(option.attr('value'));
+            }
         })
         select.find('.ds-select-filter').on('keydown', (e) => {
             if (e.code == "ArrowDown" || e.code == "ArrowUp") {
@@ -29,6 +36,10 @@
                     option.removeAttr('selected');
                     newOption.attr('selected', 1);
                 }
+            }
+            else if (e.code == "Escape") {
+                var dropDown = select.find('.ds-select-drop-down');
+                dropDown.html('');
             }
         })
     }
