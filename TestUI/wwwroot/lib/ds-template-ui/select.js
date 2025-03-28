@@ -3,8 +3,7 @@
     for (var i = 0; i < selects.length; i++) {
         var select = $(selects[i]);
         select.find('.ds-select-filter').on('input', (e) => {
-            var select = $(e.currentTarget).parent();
-            DSGetSelectData(select);
+            DSGetSelectData($(e.currentTarget).parent());
         })
         select.find('.ds-select-filter').on('blur', (e) => {
             var select = $(e.currentTarget).parent();
@@ -17,11 +16,12 @@
                 selectInput.val($(e.currentTarget).val());
             } else {
                 selectInput.val(option.attr('value'));
-                $(e.currentTarget).val(option.attr('value'));
+                $(e.currentTarget).val(option.text());
             }
         })
         select.find('.ds-select-filter').on('keydown', (e) => {
             if (e.code == "ArrowDown" || e.code == "ArrowUp") {
+                var select = $(e.currentTarget).parent();
                 var dropDown = select.find('.ds-select-drop-down');
                 var option = dropDown.children('[selected=selected]');
                 var newOption = undefined;
@@ -46,7 +46,7 @@
 })
 
 function DSGetSelectData(select) {
-    var name = select.attr('name');
+    var name = select.data('ds-name');
     var dataUrl = select.data('ds-data-url');
     var filter = select.find('.ds-select-filter').val();
     var routeValues = select.data('ds-route-values');
