@@ -4,6 +4,7 @@
 
 .ds-select-drop-down {
     position: absolute;
+    z-index: 1;
 }
 
     .ds-select-drop-down.show, .ds-select-drop-down.collapsing {
