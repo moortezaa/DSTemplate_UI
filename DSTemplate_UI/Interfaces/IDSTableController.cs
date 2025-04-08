@@ -10,7 +10,7 @@ namespace DSTemplate_UI.Interfaces
 
     public interface IDSTableController
     {
-        Task<JsonResult> DSGetTableData(string tableName, string sortPropertyName, bool? sortDesending, string filters, int page = 1, int rowsPerPage = 10, string routeValues = null);
-        Task<JsonResult> DSGetTableDataCount(string tableName, string filters, string routeValues = null);
+        Task<JsonResult> DSGetTableData(string tableName, string sortPropertyName, bool? sortDesending, string filters, int page = 1, int rowsPerPage = 10);
+        Task<JsonResult> DSGetTableDataCount(string tableName, string filters);
     }
 }
