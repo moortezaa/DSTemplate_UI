@@ -57,7 +57,9 @@
             contentType: false,
             success: function (data, status) {
                 var select = $('#' + data.selectName);
-                select.find('.ds-select-filter').val(data.options[0].text)
+                if (data.options.length > 0) {
+                    select.find('.ds-select-filter').val(data.options[0].text)
+                }
             },
             error: function (xhr, desc, err) {
                 console.error(desc, err);

@@ -21,7 +21,7 @@ namespace TestUI.Controllers
 
         public IActionResult Index()
         {
-            return View(new Class1() { title = "some title" });
+            return View(new Class1() { Id = new Guid(), title = "some title" });
         }
 
         public IActionResult Privacy()
@@ -95,24 +95,24 @@ namespace TestUI.Controllers
             return _dSTableManager.Json(2, tableName);
         }
 
-        public async Task<JsonResult> DSGetSelectData(string selectName, string filter, object? selectedKey = null)
+        public async Task<JsonResult> DSGetSelectData(string selectName, string filter, string? selectedKey = null)
         {
             Class1[] entities = [
-                new Class1(){title="some title"},
-                new Class1(){title="title 1"},
-                new Class1(){title="no"},
-                new Class1(){title="here is a title"},
+                new Class1(){Id=new Guid(),title="some title"},
+                new Class1(){Id=new Guid(),title="title 1"},
+                new Class1(){Id=new Guid(),title="no"},
+                new Class1(){Id=new Guid(),title="here is a title"},
                 ];
             if (selectName == "theselect")
             {
-                if (selectedKey!=null)
+                if (selectedKey != null)
                 {
-                    var key = selectedKey as string;
+                    var key = new Guid(selectedKey);
                     //instead of filtering we want the query to return only a sigle element in the list and that element is the selected one
-                    return await _dSSelectManager.Json(selectName, entities.Where(e=>e.title == key), nameof(Class1.title), nameof(Class1.title));
+                    return await _dSSelectManager.Json(selectName, entities.Where(e => e.Id == key), nameof(Class1.Id), nameof(Class1.title));
                 }
                 var filtered = entities.Where(e => e.title.Contains(filter ?? ""));
-                return await _dSSelectManager.Json(selectName, filtered, nameof(Class1.title), nameof(Class1.title));
+                return await _dSSelectManager.Json(selectName, filtered, nameof(Class1.Id), nameof(Class1.title));
             }
             return Json("Select not found.");
         }

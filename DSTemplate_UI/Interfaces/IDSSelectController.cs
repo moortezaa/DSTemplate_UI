@@ -10,6 +10,6 @@ namespace DSTemplate_UI.Interfaces
 
     public interface IDSSelectController
     {
-        Task<JsonResult> DSGetSelectData(string selectName, string filter,object? selectedKey = null);
+        Task<JsonResult> DSGetSelectData(string selectName, string filter,string? selectedKey = null);
     }
 }
