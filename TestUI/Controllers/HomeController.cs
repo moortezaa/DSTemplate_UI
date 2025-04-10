@@ -21,7 +21,7 @@ namespace TestUI.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(new Class1() { title = "some title" });
         }
 
         public IActionResult Privacy()
@@ -35,7 +35,7 @@ namespace TestUI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public async Task<JsonResult> DSGetTableData(string tableName, string sortPropertyName, bool? sortDesending, string filters, int page = 1, int rowsPerPage = 10, string routeValues = null)
+        public async Task<JsonResult> DSGetTableData(string tableName, string sortPropertyName, bool? sortDesending, string filters, int page = 1, int rowsPerPage = 10)
         {
             var class1s = new List<Class1>
             {
@@ -90,12 +90,12 @@ namespace TestUI.Controllers
             return await _dSTableManager.Json(rows, tableName);
         }
 
-        public Task<JsonResult> DSGetTableDataCount(string tableName, string filters, string routeValues = null)
+        public Task<JsonResult> DSGetTableDataCount(string tableName, string filters)
         {
             return _dSTableManager.Json(2, tableName);
         }
 
-        public async Task<JsonResult> DSGetSelectData(string selectName, string filter, string routeValues = null)
+        public async Task<JsonResult> DSGetSelectData(string selectName, string filter)
         {
             Class1[] entities = [
                 new Class1(){title="some title"},

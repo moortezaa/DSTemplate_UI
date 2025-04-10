@@ -61,6 +61,7 @@ namespace DSTemplate_UI.TagHelpers
                         new KeyValuePair<string, object>("placeHolder", PlaceHolder),
                         new KeyValuePair<string, object>("Id", Id),
                         new KeyValuePair<string, object>("Name", Name),
+                        new KeyValuePair<string, object>("SelectedKey", AspFor?.Model),
                     ]));
             }
             catch (Exception e)
