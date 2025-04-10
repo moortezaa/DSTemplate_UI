@@ -85,7 +85,7 @@ namespace TestUI.Controllers
             var rows = new List<string>();
             foreach (var row in query)
             {
-                rows.Add(await _dSTableManager.RenderRow(row,customRowView:"Home/IndexRow"));
+                rows.Add(await _dSTableManager.RenderRow(row, customRowView: "Home/IndexRow"));
             }
             return await _dSTableManager.Json(rows, tableName);
         }
@@ -95,7 +95,7 @@ namespace TestUI.Controllers
             return _dSTableManager.Json(2, tableName);
         }
 
-        public async Task<JsonResult> DSGetSelectData(string selectName, string filter)
+        public async Task<JsonResult> DSGetSelectData(string selectName, string filter, object? selectedKey = null)
         {
             Class1[] entities = [
                 new Class1(){title="some title"},
@@ -103,10 +103,16 @@ namespace TestUI.Controllers
                 new Class1(){title="no"},
                 new Class1(){title="here is a title"},
                 ];
-            if (selectName== "theselect")
+            if (selectName == "theselect")
             {
-                var filtered = entities.Where(e => e.title.Contains(filter??""));
-                return await _dSSelectManager.Json(selectName,filtered,nameof(Class1.title),nameof(Class1.title));
+                if (selectedKey!=null)
+                {
+                    var key = selectedKey as string;
+                    //instead of filtering we want the query to return only a sigle element in the list and that element is the selected one
+                    return await _dSSelectManager.Json(selectName, entities.Where(e=>e.title == key), nameof(Class1.title), nameof(Class1.title));
+                }
+                var filtered = entities.Where(e => e.title.Contains(filter ?? ""));
+                return await _dSSelectManager.Json(selectName, filtered, nameof(Class1.title), nameof(Class1.title));
             }
             return Json("Select not found.");
         }

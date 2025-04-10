@@ -45,10 +45,9 @@
         var selectedKey = select.find('.ds-select-input').val();
         var name = select.data('ds-name');
         var dataUrl = select.data('ds-data-url');
-        var filter = "";
         var data = new FormData();
         data.append('selectName', name);
-        data.append('filter', filter);
+        data.append('selectedKey', selectedKey);
         $.ajax({
             url: dataUrl,
             type: "post",
@@ -58,12 +57,7 @@
             contentType: false,
             success: function (data, status) {
                 var select = $('#' + data.selectName);
-                for (var i = 0; i < data.options.length; i++) {
-                    var option = data.options[i];
-                    if (option.value == selectedKey) {
-                        select.find('.ds-select-filter').val(option.text)
-                    }
-                }
+                select.find('.ds-select-filter').val(data.options[0].text)
             },
             error: function (xhr, desc, err) {
                 console.error(desc, err);
